@@ -75,9 +75,6 @@ public class Person implements IPerson, Named {
 
     public int getValueFromCharacteristic(Characteristic characteristic) {
         ValuedCharacteristic result = this.getValuedCharacteristicFromCharacteristic(characteristic);
-        for (ValuedCharacteristic valuedCharacteristic : this.valuedCharacteristics) {
-            if (valuedCharacteristic.getCharacteristic() == characteristic) return valuedCharacteristic.getValue();
-        }
         return ((result == null) ? 0 : result.getValue()) + this.race.getModifierFromCharacteristic(characteristic);
     }
 }

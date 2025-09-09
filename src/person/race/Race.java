@@ -10,13 +10,14 @@ public enum Race implements IRace {
     DWARF("Nain"),
     ELF("Elfe"),
     ORC("Orque"),
-    HUMAN("Humain");;
+    HUMAN("Humain");
 
-    private String name;
-    private List<ValuedCharacteristic> characteristicModifiers;
+    private final List<ValuedCharacteristic> characteristicModifiers;
+    private final String name;
 
     Race(String name) {
-        this.characteristicModifiers = new ArrayList();
+        this.name = name;
+        this.characteristicModifiers = new ArrayList<>();
     }
 
     public static void initializeRaces() {
@@ -31,12 +32,23 @@ public enum Race implements IRace {
         Race.ORC.characteristicModifiers.add(new ValuedCharacteristic(Characteristic.INTELLIGENCE, -3));
     }
 
-    public String getName() {
-        return this.name;
+    @Override
+    public int getModifierFromCharacteristic(final Characteristic characteristic) {
+        for (ValuedCharacteristic valuedCharacteristic : this.characteristicModifiers) {
+            if (valuedCharacteristic.getCharacteristic() == characteristic) return valuedCharacteristic.getValue();
+        }
+        return 0;
     }
 
     @Override
-    public int getModifierFromCharacteristic(final Characteristic characteristic) {
-        return 0;
+    public String toString() {
+        return "Race{" +
+                "characteristicModifiers=" + characteristicModifiers +
+                ", name='" + getName() + '\'' +
+                "} " + super.toString();
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
