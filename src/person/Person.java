@@ -78,7 +78,6 @@ public class Person implements IPerson, Named {
         for (ValuedCharacteristic valuedCharacteristic : this.valuedCharacteristics) {
             if (valuedCharacteristic.getCharacteristic() == characteristic) return valuedCharacteristic.getValue();
         }
-        return (result == null) ? 0 : result.getValue();
+        return ((result == null) ? 0 : result.getValue()) + this.race.getModifierFromCharacteristic(characteristic);
     }
-
 }

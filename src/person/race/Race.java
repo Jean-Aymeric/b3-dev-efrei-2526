@@ -34,4 +34,9 @@ public enum Race implements IRace {
     public String getName() {
         return this.name;
     }
+
+    @Override
+    public int getModifierFromCharacteristic(final Characteristic characteristic) {
+        return 0;
+    }
 }
