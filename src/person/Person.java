@@ -20,10 +20,11 @@ public class Person implements IPerson, Named {
         this.race = race;
         this.name = name;
         this.job = job;
-		this.valuedCharacteristics = new ArrayList<>();
-		for(ICharacteristic characteristic : Characteristic.values()) {
-			this.valuedCharacteristics.add(new ValuedCharacteristic(characteristic, Dice.D6.roll(3)));
-		}
+        this.valuedCharacteristics = new ArrayList<>();
+        for (ICharacteristic characteristic : Characteristic.values()) {
+            this.valuedCharacteristics.add(new ValuedCharacteristic(characteristic, Dice.D6.roll(3)));
+        }
+
     }
 
     public IRace getRace() {
@@ -43,8 +44,31 @@ public class Person implements IPerson, Named {
     }
 
     public int getValueFromCharacteristic(Characteristic characteristic) {
-        // TODO - implement Person.getValueFromCharacteristic
-        throw new UnsupportedOperationException();
+        ValuedCharacteristic result = this.getValuedCharacteristicFromCharacteristic(characteristic);
+        for (ValuedCharacteristic valuedCharacteristic : this.valuedCharacteristics) {
+            if (valuedCharacteristic.getCharacteristic() == characteristic) return valuedCharacteristic.getValue();
+        }
+        return (result == null) ? 0 : result.getValue();
+    }
+
+    private ValuedCharacteristic getValuedCharacteristicFromCharacteristic(final Characteristic characteristic) {
+        ValuedCharacteristic result = null;
+        for (ValuedCharacteristic valuedCharacteristic : this.valuedCharacteristics) {
+            if (valuedCharacteristic.getCharacteristic() == characteristic) {
+                result = valuedCharacteristic;
+            }
+        }
+        return result;
+    }
+
+    public void setValueForCharacteristic(Characteristic characteristic, int value) {
+        ValuedCharacteristic result = null;
+        result = this.getValuedCharacteristicFromCharacteristic(characteristic);
+        if (result == null) {
+            result = new ValuedCharacteristic(characteristic, 0);
+            this.valuedCharacteristics.add(result);
+        }
+        result.setValue(value);
     }
 
 }
