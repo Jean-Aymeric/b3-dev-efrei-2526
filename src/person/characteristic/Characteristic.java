@@ -11,8 +11,7 @@ public enum Characteristic implements ICharacteristic {
     private String name;
 
     Characteristic(String name) {
-        // TODO - implement Characteristic.Characteristic
-        throw new UnsupportedOperationException();
+        this.name = name;
     }
 
     public String getName() {

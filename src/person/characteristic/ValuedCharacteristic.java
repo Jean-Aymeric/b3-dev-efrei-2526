@@ -10,6 +10,14 @@ public class ValuedCharacteristic {
         this.characteristic = characteristic;
     }
 
+    @Override
+    public String toString() {
+        return "ValuedCharacteristic{" +
+                "characteristic=" + this.getCharacteristic() +
+                ", value=" + this.getValue() +
+                '}';
+    }
+
     public ICharacteristic getCharacteristic() {
         return this.characteristic;
     }
@@ -21,5 +29,4 @@ public class ValuedCharacteristic {
     public void setValue(int value) {
         this.value = value;
     }
-
 }

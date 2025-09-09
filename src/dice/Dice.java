@@ -3,15 +3,17 @@ package dice;
 import java.util.Random;
 
 public enum Dice implements IDice {
-	Coin(2),
-	D4(4),
-	D6(6),
-	D20(20);
+    Coin(2),
+    D4(4),
+    D6(6),
+    D8(8),
+    D10(10),
+    D20(20);
 
     private static final Random random = new Random();
     private final int nbSides;
 
-	Dice(int nbSides) {
+    Dice(int nbSides) {
         this.nbSides = nbSides;
     }
 

@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 public class Person implements IPerson, Named {
 
+    private final ArrayList<ValuedCharacteristic> valuedCharacteristics;
     private IRace race;
     private String name;
     private IJob job;
-    private ArrayList<ValuedCharacteristic> valuedCharacteristics;
 
     public Person(final String name, final IRace race, final IJob job) {
         this.race = race;
@@ -24,31 +24,21 @@ public class Person implements IPerson, Named {
         for (ICharacteristic characteristic : Characteristic.values()) {
             this.valuedCharacteristics.add(new ValuedCharacteristic(characteristic, Dice.D6.roll(3)));
         }
-
+        this.setValueForCharacteristic(Characteristic.LIFE_POINTS, this.getJob().getLifePointsByLevel().getNbSides());
     }
 
-    public IRace getRace() {
-        return this.race;
+    public void setValueForCharacteristic(Characteristic characteristic, int value) {
+        ValuedCharacteristic result = null;
+        result = this.getValuedCharacteristicFromCharacteristic(characteristic);
+        if (result == null) {
+            result = new ValuedCharacteristic(characteristic, 0);
+            this.valuedCharacteristics.add(result);
+        }
+        result.setValue(value);
     }
 
     public IJob getJob() {
         return this.job;
-    }
-
-    public void setJob(IJob job) {
-        this.job = job;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public int getValueFromCharacteristic(Characteristic characteristic) {
-        ValuedCharacteristic result = this.getValuedCharacteristicFromCharacteristic(characteristic);
-        for (ValuedCharacteristic valuedCharacteristic : this.valuedCharacteristics) {
-            if (valuedCharacteristic.getCharacteristic() == characteristic) return valuedCharacteristic.getValue();
-        }
-        return (result == null) ? 0 : result.getValue();
     }
 
     private ValuedCharacteristic getValuedCharacteristicFromCharacteristic(final Characteristic characteristic) {
@@ -61,14 +51,34 @@ public class Person implements IPerson, Named {
         return result;
     }
 
-    public void setValueForCharacteristic(Characteristic characteristic, int value) {
-        ValuedCharacteristic result = null;
-        result = this.getValuedCharacteristicFromCharacteristic(characteristic);
-        if (result == null) {
-            result = new ValuedCharacteristic(characteristic, 0);
-            this.valuedCharacteristics.add(result);
+    public void setJob(IJob job) {
+        this.job = job;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "valuedCharacteristics=" + this.valuedCharacteristics +
+                ", race=" + this.getRace() +
+                ", name='" + this.getName() + '\'' +
+                ", job=" + this.getJob() +
+                '}';
+    }
+
+    public IRace getRace() {
+        return this.race;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getValueFromCharacteristic(Characteristic characteristic) {
+        ValuedCharacteristic result = this.getValuedCharacteristicFromCharacteristic(characteristic);
+        for (ValuedCharacteristic valuedCharacteristic : this.valuedCharacteristics) {
+            if (valuedCharacteristic.getCharacteristic() == characteristic) return valuedCharacteristic.getValue();
         }
-        result.setValue(value);
+        return (result == null) ? 0 : result.getValue();
     }
 
 }
